@@ -48,7 +48,15 @@
   "preview_urls": false,
 
   "assets": {
-    "directory": "./",
+    // ALLOW-LIST, not deny-list. This used to be "./", which published the
+    // whole repo root and required an .assetsignore entry for every file that
+    // must not be public — README, LICENSE, docs/, logos/, .wrangler/ and,
+    // missed until it was live, .git/ (serving /.git/config and /.git/index).
+    // Pointing at public/ inverts the default: a file is published only if it
+    // is deliberately put here, so accidental publication is structurally
+    // impossible rather than a checklist. _headers and _redirects live in
+    // here too — Cloudflare reads them from the assets directory root.
+    "directory": "./public",
 
     // Unknown paths return the 404 page rather than silently serving index.html,
     // so a mistyped URL cannot render the calculator at an address that looks
