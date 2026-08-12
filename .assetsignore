@@ -31,3 +31,12 @@
 # Wrangler local state — never part of the site, and cf.json holds the
 # IP-geolocation of whoever last ran `wrangler dev`.
 /.wrangler/
+
+# The git directory. `assets.directory: "./"` publishes the whole repo root,
+# which served /.git/config, /.git/HEAD and /.git/index as static files — the
+# classic exposed-.git misconfiguration, from which a whole repository can
+# often be reconstructed. Harmless-ish while the repo is public on GitHub
+# anyway, but it is a real finding on a clinical site and would be serious if
+# the repo were ever made private.
+/.git/
+/.github/

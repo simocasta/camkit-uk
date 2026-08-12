@@ -32,6 +32,21 @@
   // compatibility date ... but the newest date supported is ...".
   "compatibility_date": "2026-08-11",
 
+  // Routing.
+  //
+  // preview_urls: false — otherwise every deploy also publishes a public
+  // preview hostname. Two problems with that here: GoatCounter counts a
+  // *.workers.dev preview (it only skips localhost and private ranges), so
+  // preview traffic pollutes the only page-view metric we collect; and it puts
+  // unreviewed clinical wording at a findable public URL with no camkit.uk
+  // context and no way to stop someone bookmarking it.
+  //
+  // workers_dev: true for now, so there is somewhere to test before the domain
+  // is attached. TODO: flip to false once camkit.uk is live, so the site has
+  // exactly one address and there is no second copy to find or cite.
+  "workers_dev": true,
+  "preview_urls": false,
+
   "assets": {
     "directory": "./",
 
