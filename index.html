@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CamKIT — Cambridge Knee Injury Tool</title>
+  <meta name="description" content="The Cambridge Knee Injury Tool (CamKIT): a research prototype of a 12-point clinical prediction tool that triages acute soft-tissue knee injuries into three traffic-light bands. For research use only. Background, evidence, publications and the online calculator." />
+  <meta name="color-scheme" content="light" />
+
+  <!-- IBM Plex is self-hosted under assets/fonts/ and declared in tokens.css.
+       No third-party font host, so nothing leaks a visitor's IP and the pages
+       render on offline / locked-down hospital networks. -->
+  <link rel="preload" href="assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="orgbar">
+    <div class="orgbar__inner">
+      <img class="orgbar__logo orgbar__logo--cam"
+           src="assets/logos/cambridge-surgery.png" width="483" height="216"
+           alt="University of Cambridge — Division of Trauma and Orthopaedic Surgery" />
+      <span class="orgbar__rule" aria-hidden="true"></span>
+      <img class="orgbar__logo orgbar__logo--lab"
+           src="assets/logos/mcdonnell-lab.png" width="180" height="180"
+           alt="McDonnell Lab, Cambridge" />
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <p class="hero__eyebrow">Research prototype of a decision-support aid for healthcare professionals · acute soft-tissue knee injury triage · research use only</p>
+
+      <h1 class="hero__title">
+        <span class="wordmark"><span class="wordmark__cam">Cam</span><span class="wordmark__kit">KIT</span></span>
+        <span class="hero__name">Cambridge Knee Injury Tool</span>
+      </h1>
+
+      <p class="hero__headline">A validated 12-point clinical prediction tool for triaging acute soft-tissue knee injuries.</p>
+      <p class="hero__support">
+        Twelve yes/no findings from history and examination give a score out of 12 and a
+        traffic-light triage band mapped to a clear next step. Runs entirely in your browser —
+        nothing you enter is stored or transmitted.
+      </p>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="calculator/"
+           data-count="cta-open-calculator" data-count-title="CTA: open the calculator">Open the calculator <span aria-hidden="true">→</span></a>
+        <a class="btn btn--secondary" href="assets/papers/molloy-2025-camkit-bmj-osem.pdf" download>Download the paper (PDF)</a>
+      </div>
+
+      <figure class="pathway">
+        <figcaption class="pathway__caption">How the score maps to action</figcaption>
+        <div class="pathway__track" aria-hidden="true">
+          <span class="pathway__zone pathway__zone--low"></span>
+          <span class="pathway__zone pathway__zone--med"></span>
+          <span class="pathway__zone pathway__zone--high"></span>
+        </div>
+        <div class="pathway__scale" aria-hidden="true">
+          <span>0</span><span>3</span><span>6</span><span>9</span><span>12</span>
+        </div>
+        <dl class="pathway__bands">
+          <div class="pathway__band" data-band="low">
+            <dt><strong>Low</strong> <span class="pathway__range">0–3</span></dt>
+            <dd>Discharge with safety-netting advice.</dd>
+          </div>
+          <div class="pathway__band" data-band="med">
+            <dt><strong>Medium</strong> <span class="pathway__range">4–6</span></dt>
+            <dd>Conservative management with planned reassessment.</dd>
+          </div>
+          <div class="pathway__band" data-band="high">
+            <dt><strong>High</strong> <span class="pathway__range">7–12</span></dt>
+            <dd>Refer for MRI / specialist review.</dd>
+          </div>
+        </dl>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="evidence" aria-labelledby="evidence-heading">
+      <h2 id="evidence-heading" class="visually-hidden">Evidence at a glance</h2>
+      <ul class="evidence__grid">
+        <li class="stat"><span class="stat__value">100%</span><span class="stat__label">sensitivity</span></li>
+        <li class="stat"><span class="stat__value">94.3%</span><span class="stat__label">specificity</span></li>
+        <li class="stat"><span class="stat__value">100%</span><span class="stat__label">negative predictive value</span></li>
+        <li class="stat"><span class="stat__value">12 · 3</span><span class="stat__label">findings · triage bands</span></li>
+      </ul>
+      <p class="evidence__note">
+        For clinically significant injury, on retrospective clinician-completed data. In
+        prospective patient-completed use the rule-out (Low) signal was preserved, but overall
+        discrimination and rule-in precision were lower — interpret patient-entered scores with
+        caution.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="why-heading">
+      <h2 id="why-heading" class="section__label">Why CamKIT</h2>
+      <div class="section__body">
+        <p>
+          Acute soft-tissue knee injuries — ruptures of the anterior cruciate and other
+          ligaments, meniscal tears — are easy to miss at first presentation. Pain and effusion
+          limit examination, radiographs exclude fracture but say nothing about soft tissue,
+          and MRI and specialist review are scarce resources. The result is a well-documented
+          pattern of delayed diagnosis, repeat attendance and late referral, with the risk of
+          further damage to an unstable knee in the meantime.
+        </p>
+        <p>
+          CamKIT was developed at the University of Cambridge to close that gap using only
+          information already available in an urgent-care consultation. A Delphi study of
+          orthopaedic and emergency clinicians established consensus on the diagnostic
+          challenge and the highest-value features in history and examination; those features
+          were refined into twelve yes/no findings that sum to a simple additive score,
+          validated against clinically significant soft-tissue injury; and an 18-month
+          feasibility study at an urgent treatment centre examined how the tool fits real-world
+          triage.
+        </p>
+        <p>
+          Each finding scores one point. The total places the patient in one of three
+          traffic-light bands, each mapped to a next step: Low (0–3) — discharge with
+          safety-netting advice; Medium (4–6) — conservative management with planned
+          reassessment; High (7–12) — refer for MRI or specialist review. The banding is
+          deliberately cautious at the rule-out end: in the validation data, no patient with a
+          clinically significant injury scored in the Low band.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="pubs-heading">
+      <h2 id="pubs-heading" class="section__label">Publications</h2>
+      <div class="section__body">
+        <article class="pub pub--featured">
+          <p class="pub__tag">Development &amp; validation</p>
+          <p class="pub__cite">
+            Molloy T, Gompels B, Castagno S, McCaskie A, McDonnell S. The Cambridge Knee Injury
+            Tool (CamKIT): a clinical prediction tool for acute soft tissue knee injuries.
+            <em>BMJ Open Sport &amp; Exercise Medicine</em> 2025;11(1):e002357.
+          </p>
+          <div class="pub__actions">
+            <a class="btn btn--primary btn--small" href="assets/papers/molloy-2025-camkit-bmj-osem.pdf" download>Download PDF</a>
+            <a class="pub__doi" href="https://doi.org/10.1136/bmjsem-2024-002357" target="_blank" rel="noopener noreferrer">doi:10.1136/bmjsem-2024-002357</a>
+          </div>
+          <p class="pub__licence">
+            Open access — © Author(s) 2025, hosted here under
+            <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC 4.0</a>.
+          </p>
+        </article>
+
+        <ul class="pub-list">
+          <li class="pub">
+            <p class="pub__tag">Delphi consensus</p>
+            <p class="pub__cite">
+              Molloy T, Gompels B, McDonnell S. Assessing diagnostic challenges in acute
+              soft-tissue knee injuries: a Delphi study.
+              <em>Bone &amp; Joint Open</em> 2024;5(11):984–91.
+            </p>
+            <a class="pub__doi" href="https://doi.org/10.1302/2633-1462.511.BJO-2024-0159.R1" target="_blank" rel="noopener noreferrer">doi:10.1302/2633-1462.511.BJO-2024-0159.R1</a>
+          </li>
+          <li class="pub">
+            <p class="pub__tag">Feasibility</p>
+            <p class="pub__cite">
+              Molloy T, et al. Feasibility study of the Cambridge knee injury tool (CamKIT):
+              18-month analysis of acute knee injuries at an urgent treatment centre.
+              <em>Journal of Clinical Orthopaedics and Trauma</em> 2025;70:103203.
+            </p>
+            <a class="pub__doi" href="https://doi.org/10.1016/j.jcot.2025.103203" target="_blank" rel="noopener noreferrer">doi:10.1016/j.jcot.2025.103203</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="use-heading">
+      <h2 id="use-heading" class="section__label">Intended use</h2>
+      <div class="section__body">
+        <p>
+          CamKIT is a <strong>research prototype</strong> of a clinical decision-support aid,
+          published here <strong>for research use only</strong>. It is an
+          <strong>aid to, not a substitute for, clinical judgement</strong> — it does not
+          replace clinical examination or imaging. It is intended for evaluation by healthcare
+          professionals, in the context of patients aged 16 and over presenting with acute knee
+          injury after fracture has been excluded (e.g. Ottawa Knee Rule) per local pathways.
+        </p>
+        <p class="flag">
+          Developed and validated on clinician-completed data — not validated for patient
+          self-assessment. Not a registered medical device: confirm the regulatory position
+          with your institution before any clinical-pathway use.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Cambridge Knee Injury Tool · University of Cambridge.
+      <span class="footer__ver">CamKIT site · v0.1</span>
+    </p>
+    <p class="footer__contact">
+      Questions about CamKIT — <a href="mailto:info@camkit.uk">info@camkit.uk</a>
+    </p>
+    <p class="footer__disclaimer">
+      <strong>For research use only.</strong> No data entered in the
+      calculator is stored or transmitted — all scoring runs in your browser.
+    </p>
+    <p class="footer__privacy">
+      Anonymous visitor counts via
+      <a href="https://www.goatcounter.com/" target="_blank" rel="noopener noreferrer">GoatCounter</a>
+      — no cookies, no cross-site tracking, no personal data collected. Nothing you enter in
+      the calculator is ever transmitted.
+    </p>
+  </footer>
+
+  <!-- Privacy-preserving usage counts. Remove these two tags and assets/analytics.js
+       to disable analytics entirely — the site works unchanged without them. -->
+  <script data-goatcounter="https://camkit.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+  <script src="assets/analytics.js" defer></script>
+</body>
+</html>

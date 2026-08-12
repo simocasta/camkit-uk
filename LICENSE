@@ -1,0 +1,62 @@
+MIT License
+
+Copyright (c) 2026 The CamKIT authors, University of Cambridge
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-------------------------------------------------------------------------------
+NOT COVERED BY THIS LICENCE
+-------------------------------------------------------------------------------
+
+The MIT grant above applies to the site's own source — HTML, CSS, JavaScript
+and the maintainer documentation. Four things in this repository are licensed
+by someone else and are NOT yours to reuse under the terms above:
+
+1. INSTITUTIONAL LOGOS — `assets/logos/`
+   The University of Cambridge logo and the Division of Trauma and Orthopaedic
+   Surgery lock-up, and the McDonnell Lab mark. These are the marks of their
+   respective institutions, used here to identify the tool's origin. All rights
+   reserved. They are NOT licensed for reuse, and reusing them could imply an
+   institutional endorsement that does not exist. Remove them from any fork.
+   (The files here are reduced derivatives; the originals are not distributed.)
+
+2. THE PAPER — `assets/papers/molloy-2025-camkit-bmj-osem.pdf`
+   © Author(s) 2025, published open access by BMJ under CC BY-NC 4.0:
+   https://creativecommons.org/licenses/by-nc/4.0/
+   That licence is the publisher's and is not altered by anything here.
+
+3. IBM PLEX — `assets/fonts/`
+   © 2017 IBM Corp., licensed under the SIL Open Font License 1.1.
+   Full text in `assets/fonts/OFL.txt`, which must travel with the font files.
+
+4. THE CLINICAL CONTENT ITSELF
+   The twelve findings, the scoring and the triage bands follow Table 1 of
+   Molloy et al., BMJ Open Sport Exerc Med 2025;11(1):e002357. Cite the paper;
+   an MIT licence on this website is not a licence over the published tool.
+
+-------------------------------------------------------------------------------
+A NOTE ON CLINICAL USE
+-------------------------------------------------------------------------------
+
+CamKIT is a research prototype of a clinical decision-support aid, published
+for research use only. It is not a registered medical device. The "AS IS" and
+no-liability terms above are not boilerplate here: if you fork this, change the
+scoring or the band thresholds, and deploy it, the output is your
+responsibility and no longer represents the validated CamKIT tool. Please do
+not present a modified version under the CamKIT name.

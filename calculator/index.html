@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CamKIT calculator — score the 12 findings</title>
+  <meta name="description" content="Interactive CamKIT calculator — a research prototype, for research use only: record the 12 clinical findings to get a score out of 12 and a three-tier triage band. All scoring runs in your browser — nothing is stored or transmitted." />
+  <meta name="color-scheme" content="light" />
+
+  <!-- IBM Plex is self-hosted under assets/fonts/ and declared in tokens.css.
+       No third-party font host, so nothing leaks a visitor's IP and the pages
+       render on offline / locked-down hospital networks. -->
+  <link rel="preload" href="../assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+  <link rel="stylesheet" href="../assets/tokens.css" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#camkit-form">Skip to the assessment</a>
+
+  <!-- Print-only document header (populated by camkit.js before printing) -->
+  <div class="print-only print-head" data-band="low">
+    <p class="print-head__title">Cambridge Knee Injury Tool (CamKIT)</p>
+    <p class="print-head__meta">Assessment date: <strong id="print-date"></strong></p>
+    <p class="print-head__result">
+      Score <strong id="print-score">0</strong> / 12 —
+      <strong id="print-band">Low risk</strong>:
+      <span id="print-action">Discharge with safety-netting advice.</span>
+    </p>
+  </div>
+
+  <div class="orgbar">
+    <div class="orgbar__inner">
+      <img class="orgbar__logo orgbar__logo--cam"
+           src="../assets/logos/cambridge-surgery.png" width="483" height="216"
+           alt="University of Cambridge — Division of Trauma and Orthopaedic Surgery" />
+      <span class="orgbar__rule" aria-hidden="true"></span>
+      <img class="orgbar__logo orgbar__logo--lab"
+           src="../assets/logos/mcdonnell-lab.png" width="180" height="180"
+           alt="McDonnell Lab, Cambridge" />
+    </div>
+  </div>
+
+  <header class="masthead">
+    <div class="masthead__inner">
+      <p class="masthead__back"><a href="../">← About CamKIT</a></p>
+      <div class="wordmark">
+        <span class="wordmark__cam">Cam</span><span class="wordmark__kit">KIT</span>
+        <span class="wordmark__full">Cambridge Knee Injury Tool</span>
+      </div>
+      <p class="masthead__eyebrow">
+        Research prototype of a decision-support aid for healthcare professionals ·
+        acute soft-tissue knee injury triage · research use only
+      </p>
+      <p class="masthead__link">
+        Based on the published, peer-reviewed CamKIT tool —
+        <a href="https://doi.org/10.1136/bmjsem-2024-002357" target="_blank" rel="noopener noreferrer">read the paper →</a>
+      </p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="form" aria-labelledby="form-heading">
+      <div class="form__intro">
+        <h1 id="form-heading">Score the 12 findings</h1>
+        <p class="form__lede">
+          Record each finding as present or absent. Every <strong>Yes</strong> adds one point.
+          The triage band updates live alongside.
+        </p>
+      </div>
+
+      <form id="camkit-form" novalidate>
+        <!-- Item fieldsets are rendered here by assets/camkit.js -->
+      </form>
+
+      <div class="form__actions">
+        <button type="button" id="reset-btn" class="btn-reset">Clear all findings</button>
+      </div>
+    </section>
+
+    <aside class="readout" aria-labelledby="readout-heading">
+      <div class="readout__sticky">
+        <h2 id="readout-heading" class="readout__title">Triage band</h2>
+
+        <div class="score" aria-hidden="true">
+          <span class="score__value" id="score-value">0</span>
+          <span class="score__total">/ 12</span>
+        </div>
+
+        <!-- Signature element: the 0–12 triage gauge -->
+        <div class="gauge" id="gauge">
+          <div class="gauge__track">
+            <span class="gauge__zone gauge__zone--low"></span>
+            <span class="gauge__zone gauge__zone--med"></span>
+            <span class="gauge__zone gauge__zone--high"></span>
+            <span class="gauge__needle" id="gauge-needle"></span>
+          </div>
+          <div class="gauge__scale">
+            <span>0</span><span>3</span><span>6</span><span>9</span><span>12</span>
+          </div>
+          <div class="gauge__bands">
+            <span class="gauge__bandlabel">Low 0–3</span>
+            <span class="gauge__bandlabel">Medium 4–6</span>
+            <span class="gauge__bandlabel">High 7–12</span>
+          </div>
+        </div>
+
+        <div class="band" id="band" data-band="low">
+          <p class="band__name" id="band-name">
+            <span class="band__dot" aria-hidden="true"></span>
+            <span id="band-label">Low risk</span>
+          </p>
+          <p class="band__action" id="band-action">Discharge with safety-netting advice.</p>
+        </div>
+
+        <button type="button" id="download-btn" class="btn-pdf">Download as PDF</button>
+
+        <p class="readout__caveat">
+          Exclude fracture first (e.g. Ottawa Knee Rule) per local pathways.
+        </p>
+
+        <!-- Screen-reader live summary -->
+        <p class="visually-hidden" id="live-status" role="status" aria-live="polite"></p>
+      </div>
+    </aside>
+  </main>
+
+  <section class="notes" aria-label="Intended use and evidence">
+    <div class="notes__grid">
+      <article class="note">
+        <h3>Intended use</h3>
+        <p>
+          CamKIT is a <strong>research prototype</strong> of a clinical decision-support aid,
+          published <strong>for research use only</strong>. It is an <strong>aid to, not a
+          substitute for, clinical judgement</strong> — it does not replace clinical examination
+          or imaging. It is intended for evaluation by healthcare professionals, in the context of
+          patients aged 16 and over presenting with acute knee injury after fracture has been
+          excluded.
+        </p>
+        <p class="note__flag">
+          Developed and validated on clinician-completed data. Not validated for patient
+          self-assessment. Not a registered medical device — confirm the regulatory position with
+          your institution before any clinical-pathway use.
+        </p>
+      </article>
+
+      <article class="note">
+        <h3>How the band maps to action</h3>
+        <dl class="actions">
+          <div class="actions__row" data-band="low">
+            <dt><span class="actions__chip">Low · 0–3</span></dt>
+            <dd>Discharge with safety-netting advice.</dd>
+          </div>
+          <div class="actions__row" data-band="med">
+            <dt><span class="actions__chip">Medium · 4–6</span></dt>
+            <dd>Conservative management with planned reassessment.</dd>
+          </div>
+          <div class="actions__row" data-band="high">
+            <dt><span class="actions__chip">High · 7–12</span></dt>
+            <dd>Refer for MRI / specialist review.</dd>
+          </div>
+        </dl>
+      </article>
+
+      <article class="note">
+        <h3>Evidence</h3>
+        <p>
+          On retrospective clinician-completed data, the three-tier CamKIT showed sensitivity 100%,
+          specificity 94.3%, PPV 89% and NPV 100% for clinically significant injury. In prospective
+          patient-completed use, the rule-out (Low) signal was preserved but overall discrimination
+          and rule-in precision were lower — interpret patient-entered scores with caution.
+        </p>
+        <ul class="refs">
+          <li>Molloy T, Gompels B, Castagno S, McCaskie A, McDonnell S. The Cambridge Knee Injury Tool (CamKIT): a clinical prediction tool for acute soft tissue knee injuries. <em>BMJ Open Sport Exerc Med</em> 2025;11(1):e002357.
+            <a href="https://doi.org/10.1136/bmjsem-2024-002357" target="_blank" rel="noopener noreferrer">doi:10.1136/bmjsem-2024-002357</a></li>
+          <li>Molloy T, Gompels B, McDonnell S. Assessing diagnostic challenges in acute soft-tissue knee injuries: a Delphi study. <em>Bone Jt Open</em> 2024;5(11):984–91.
+            <a href="https://doi.org/10.1302/2633-1462.511.BJO-2024-0159.R1" target="_blank" rel="noopener noreferrer">doi:10.1302/2633-1462.511.BJO-2024-0159.R1</a></li>
+          <li>Molloy T, et al. Feasibility study of the Cambridge knee injury tool (CamKIT): 18-month analysis of acute knee injuries at an urgent treatment centre. <em>J Clin Orthop Trauma</em> 2025;70:103203.
+            <a href="https://doi.org/10.1016/j.jcot.2025.103203" target="_blank" rel="noopener noreferrer">doi:10.1016/j.jcot.2025.103203</a></li>
+        </ul>
+      </article>
+
+      <!-- FEEDBACK SURVEY — must be the anonymous respondent link (/jfe/form/<ID>),
+           never the Qualtrics editor link (/survey-builder/<ID>/edit), which only
+           works for logged-in survey owners. scripts/check-analytics.sh enforces this.
+           Survey ID: SV_2cn2vMerfUsY75Q -->
+      <article class="note note--feedback">
+        <h3>Feedback</h3>
+        <p>
+          CamKIT is under active evaluation. If you have used it — or looked at it and decided
+          not to — four short questions would help us improve it. Anonymous, about two minutes.
+        </p>
+        <a class="note__cta" href="https://cambridge.eu.qualtrics.com/jfe/form/SV_2cn2vMerfUsY75Q"
+           target="_blank" rel="noopener noreferrer"
+           data-count="feedback-survey" data-count-title="Feedback survey opened">
+          Give feedback <span aria-hidden="true">→</span>
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Cambridge Knee Injury Tool · University of Cambridge.
+      <span class="footer__ver">CamKIT calculator · v0.1</span>
+    </p>
+    <p class="footer__contact">
+      Questions about CamKIT — <a href="mailto:info@camkit.uk">info@camkit.uk</a>
+    </p>
+    <p class="footer__disclaimer">
+      <strong>For research use only.</strong> No data entered on this page is
+      stored or transmitted — all scoring runs in your browser.
+    </p>
+    <p class="footer__privacy">
+      Anonymous visitor counts via
+      <a href="https://www.goatcounter.com/" target="_blank" rel="noopener noreferrer">GoatCounter</a>
+      — no cookies, no cross-site tracking, no personal data collected. Your findings and score
+      never leave this page.
+    </p>
+  </footer>
+
+  <!-- Print-only document footer -->
+  <div class="print-only print-foot">
+    <p>Research prototype of a decision-support aid — for research use only. An aid to, not a
+      substitute for, clinical judgement. Does not replace clinical examination or imaging.
+      Not a registered medical device.</p>
+    <p>Molloy T, Gompels B, Castagno S, McCaskie A, McDonnell S. The Cambridge Knee Injury Tool
+      (CamKIT). BMJ Open Sport Exerc Med 2025;11(1):e002357. doi:10.1136/bmjsem-2024-002357</p>
+  </div>
+
+  <noscript>
+    <p class="noscript">This calculator needs JavaScript to score the 12 findings. Please enable JavaScript.</p>
+  </noscript>
+
+  <script src="../assets/camkit.js" defer></script>
+
+  <!-- Privacy-preserving usage counts. Remove these two tags and assets/analytics.js
+       to disable analytics entirely — the calculator works unchanged without them. -->
+  <script data-goatcounter="https://camkit.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+  <script src="../assets/analytics.js" defer></script>
+</body>
+</html>

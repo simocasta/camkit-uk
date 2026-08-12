@@ -1,0 +1,401 @@
+/* ============================================================
+   CamKIT landing page — editorial layer over the instrument.
+   Depends on assets/tokens.css (load that first).
+   Traffic-light colours appear ONLY in the triage pathway and
+   the caution flag, where they carry their clinical meaning.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--surface);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Accessibility helpers ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px; top: -48px;
+  background: var(--brand);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  z-index: 50;
+  transition: top .18s ease;
+  text-decoration: none;
+}
+.skip-link:focus { top: 12px; }
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: 8px;
+}
+
+/* ---------- Institutional identity strip ----------
+   Provenance, not navigation: the marks are unlinked. The inner column
+   reuses --maxw and the 24px gutter so the logos align with the wordmark
+   below rather than looking bolted on. --line-soft (lighter than the hero's
+   --line) subdivides the white block instead of cutting a section break.
+   Duplicated in styles.css — keep the two in step. */
+.orgbar {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line-soft);
+}
+.orgbar__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+/* Heights differ because a circular mark reads optically heavier than a
+   wordmark at the same height. 72px is the floor at which the Cambridge
+   lock-up's second line stays legible (its cap height is 10% of the mark). */
+.orgbar__logo { display: block; width: auto; }
+.orgbar__logo--cam { height: 72px; }
+.orgbar__logo--lab { height: 64px; }
+.orgbar__rule {
+  align-self: center;
+  width: 1px;
+  height: 48px;
+  background: var(--line);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.hero__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 44px 24px 44px;
+}
+.hero__eyebrow {
+  margin: 0 0 28px;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+}
+.hero__title { margin: 0; }
+.wordmark {
+  display: block;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  font-size: clamp(2.8rem, 1.8rem + 4vw, 4.6rem);
+  line-height: 1;
+}
+.wordmark__cam { color: var(--ink); }
+.wordmark__kit { color: var(--brand); }
+.hero__name {
+  display: block;
+  margin-top: 12px;
+  font-size: .9rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.hero__headline {
+  margin: 28px 0 0;
+  font-size: clamp(1.25rem, 1rem + 1.2vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  max-width: 28ch;
+}
+.hero__support {
+  margin: 14px 0 0;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 28px 0 0;
+}
+.btn {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: .95rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 12px 22px;
+  text-decoration: none;
+  transition: background .15s ease;
+}
+.btn--primary {
+  color: #fff;
+  background: var(--brand);
+  border: 1px solid var(--brand);
+}
+.btn--primary:hover { background: var(--brand-ink); }
+.btn--secondary {
+  color: var(--brand-ink);
+  background: var(--brand-tint);
+  border: 1px solid var(--brand-soft);
+}
+.btn--secondary:hover { background: var(--brand-soft); }
+.btn--small { font-size: .88rem; padding: 9px 16px; }
+
+/* ---------- Triage pathway (signature) ----------
+   Same geometry as the calculator's gauge: zone widths are
+   3.5/12, 3/12 and 5.5/12 (band boundaries at 3.5 and 6.5). */
+.pathway { margin: 44px 0 0; }
+.pathway__caption {
+  margin: 0 0 10px;
+  font-size: .76rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pathway__track {
+  position: relative;
+  display: flex;
+  height: 16px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.pathway__zone { display: block; height: 100%; opacity: .42; }
+.pathway__zone--low  { width: 29.17%; background: var(--low); }
+.pathway__zone--med  { width: 25%;    background: var(--med); }
+.pathway__zone--high { width: 45.83%; background: var(--high); }
+.pathway__scale {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--muted);
+  margin-top: 7px;
+}
+.pathway__bands {
+  display: grid;
+  grid-template-columns: 29.17% 25% 45.83%;
+  margin: 16px 0 0;
+}
+.pathway__band { padding: 0 18px 0 0; }
+.pathway__band dt { font-size: .95rem; }
+.pathway__band dd {
+  margin: 3px 0 0;
+  font-size: .88rem;
+  color: var(--ink-soft);
+  max-width: 34ch;
+}
+.pathway__range {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  color: var(--muted);
+  margin-left: 6px;
+}
+.pathway__band[data-band="low"]  dt strong { color: #15663a; }
+.pathway__band[data-band="med"]  dt strong { color: #8a5908; }
+.pathway__band[data-band="high"] dt strong { color: #9a2b20; }
+
+/* ---------- Evidence strip ---------- */
+.evidence {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 34px 24px 0;
+}
+.evidence__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+.stat {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px 20px 16px;
+}
+.stat__value {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.stat__label {
+  display: block;
+  margin-top: 2px;
+  font-size: .78rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.evidence__note {
+  margin: 12px 0 0;
+  font-size: .85rem;
+  color: var(--muted);
+  max-width: 88ch;
+}
+
+/* ---------- Labelled sections ---------- */
+.section {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 40px 24px 0;
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.section__label {
+  margin: 4px 0 0;
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+}
+.section__body { max-width: 70ch; }
+.section__body > p {
+  margin: 0 0 14px;
+  font-size: .98rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- Publications ---------- */
+.pub--featured {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 22px;
+}
+.pub__tag {
+  display: inline-block;
+  margin: 0 0 8px;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+  background: var(--brand-tint);
+  border: 1px solid var(--brand-soft);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+.pub__cite { margin: 0; font-size: .95rem; color: var(--ink); }
+.pub__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin: 14px 0 0;
+}
+.pub__doi {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  color: var(--brand);
+  text-decoration: none;
+  border-bottom: 1px solid var(--brand-soft);
+  word-break: break-word;
+}
+.pub__doi:hover { border-bottom-color: var(--brand); }
+.pub__licence { margin: 12px 0 0; font-size: .78rem; color: var(--muted); }
+.pub__licence a { color: var(--muted); }
+
+.pub-list { list-style: none; margin: 6px 0 0; padding: 0; }
+.pub-list .pub {
+  padding: 16px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.pub-list .pub__tag {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--muted);
+  margin: 0 0 4px;
+}
+.pub-list .pub__cite { font-size: .92rem; color: var(--ink-soft); margin: 0 0 6px; }
+
+/* ---------- Intended-use caution flag ---------- */
+.flag {
+  font-size: .9rem;
+  color: var(--ink-soft);
+  background: var(--med-bg);
+  border-left: 3px solid var(--med);
+  padding: 10px 12px;
+  border-radius: 0 8px 8px 0;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  max-width: var(--maxw);
+  margin: 8px auto 0;
+  padding: 40px 24px 40px;
+  color: var(--muted);
+  font-size: .85rem;
+}
+.footer__ver { font-family: var(--font-mono); font-size: .76rem; margin-left: 6px; }
+.footer__contact { margin: 6px 0 0; }
+.footer__contact a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--brand-soft);
+}
+.footer__contact a:hover { border-bottom-color: var(--brand); }
+.footer__disclaimer { margin: 6px 0 0; max-width: 70ch; }
+.footer__privacy {
+  margin: 10px 0 0;
+  max-width: 70ch;
+  font-size: .78rem;
+  color: var(--muted);
+}
+.footer__privacy a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+}
+.footer__privacy a:hover { border-bottom-color: var(--brand); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 720px) {
+  .orgbar__inner { padding: 14px 24px; gap: 16px; }
+  .orgbar__logo--cam { height: 62px; }
+  .orgbar__logo--lab { height: 55px; }
+  .orgbar__rule { height: 40px; }
+  .hero__inner { padding: 32px 24px 36px; }
+  .pathway__bands { grid-template-columns: 1fr; gap: 12px; }
+  .pathway__band { padding: 0 0 0 12px; }
+  .pathway__band[data-band="low"]  { border-left: 3px solid var(--low); }
+  .pathway__band[data-band="med"]  { border-left: 3px solid var(--med); }
+  .pathway__band[data-band="high"] { border-left: 3px solid var(--high); }
+  .section { grid-template-columns: 1fr; gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+  .skip-link, .btn { transition: none !important; }
+}

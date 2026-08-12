@@ -1,0 +1,18 @@
+# ---------------------------------------------------------------------------
+# Redirects for the CamKIT site. Read by Cloudflare Pages and Netlify.
+# Same portability caveat as _headers: GitHub Pages ignores this file.
+#
+# docs/ is maintainer documentation and is .gitignore'd, so it never reaches
+# the host and the rule below should never fire. It is kept as a safety net:
+# if docs/ is ever un-ignored, committed by accident, or copied to a server by
+# hand, this stops it becoming Google-indexable pages on a clinical domain.
+# What it holds — an internal runbook with a stale deploy status, and the
+# survey design rationale plus ethics reasoning — reads badly in public and
+# could bias a respondent who finds it.
+#
+# Deployers: the two things you genuinely need are duplicated where they
+# cannot be missed — the CSP rollout in _headers, the font regeneration recipe
+# in assets/tokens.css.
+# ---------------------------------------------------------------------------
+
+/docs/*  /  302

@@ -1,0 +1,43 @@
+{
+  // Cloudflare Workers static-assets config.
+  //
+  // The site is zero-build: there is no Worker script and no `main` entry
+  // point, only static files. Cloudflare serves `directory` directly, which is
+  // the Workers equivalent of a Pages project with an empty build command and
+  // an output directory of `/`.
+  //
+  // We are on Workers rather than Pages because Cloudflare has retired the
+  // Pages creation flow from the dashboard for new projects. If you do end up
+  // on a Pages project instead, DELETE this file — Pages reads wrangler config
+  // for Functions and an assets block here will confuse it.
+  //
+  // Dashboard build settings that go with this file:
+  //   Build command:  (empty)
+  //   Deploy command: npx wrangler deploy
+  //
+  // `_headers` and `_redirects` at the project root are honoured by Workers
+  // static assets, but VERIFY that after the first deploy — the CSP is a
+  // security control and must not be assumed:
+  //
+  //   curl -sI https://camkit.uk | grep -iE 'content-security-policy|strict-transport'
+  //
+  // If those headers are missing, add them with a Cloudflare Transform Rule
+  // (Rules -> Transform Rules -> Modify Response Header) instead, which works
+  // regardless of hosting flow.
+
+  "name": "camkit-uk",
+
+  // Must not be in the future relative to the runtime: a date newer than the
+  // workerd binary supports fails to boot with "This Worker requires
+  // compatibility date ... but the newest date supported is ...".
+  "compatibility_date": "2026-08-11",
+
+  "assets": {
+    "directory": "./",
+
+    // Unknown paths return the 404 page rather than silently serving index.html,
+    // so a mistyped URL cannot render the calculator at an address that looks
+    // official but is not one we published.
+    "not_found_handling": "404-page"
+  }
+}

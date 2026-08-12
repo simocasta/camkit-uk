@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------------------
+# Response headers for the CamKIT site.
+#
+# Read by Cloudflare Pages and Netlify. GitHub Pages IGNORES this file — if you
+# ever move the site there, every protection below silently disappears. That is
+# a reason to prefer Pages, or to reproduce these headers at whatever fronts it.
+#
+# The Content-Security-Policy is the machine-enforced version of the promise
+# both pages make in their footers. `form-action 'none'` means the browser
+# itself refuses to submit the clinical form anywhere, and `connect-src` /
+# `img-src` cap where any script on the page can send data — including
+# GoatCounter's, which is the one third-party script we load and therefore the
+# only realistic route by which a compromise could reach a clinician's entries.
+#
+# ROLLOUT: this ships as Content-Security-Policy-Report-Only, which reports
+# violations to the browser console WITHOUT blocking anything. Load both pages
+# on the deployed site, open devtools, click through the calculator and print
+# to PDF, and confirm the console is clean. Then rename the header to
+# Content-Security-Policy to enforce it. Enforcing an unverified policy can
+# silently break the gauge or the counter, which is worse than no policy.
+# ---------------------------------------------------------------------------
+
+/*
+  Content-Security-Policy-Report-Only: default-src 'none'; script-src 'self' https://gc.zgo.at; style-src 'self'; font-src 'self'; img-src 'self' https://camkit.goatcounter.com; connect-src https://camkit.goatcounter.com; form-action 'none'; base-uri 'none'; frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# Fonts and logos are content-addressed by name and change only when the design
+# does, so they can be cached hard. HTML and CSS stay revalidated so a fix to
+# the item wording or the triage bands reaches clinicians on the next load.
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/logos/*
+  Cache-Control: public, max-age=31536000, immutable

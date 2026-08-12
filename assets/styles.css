@@ -1,0 +1,643 @@
+/* ============================================================
+   CamKIT calculator — clinical instrument styling
+   Palette is intentionally narrow. Green/amber/red are RESERVED
+   for the triage result only; the brand accent is petrol teal so
+   that semantic colour always means "triage band", never decoration.
+   ============================================================ */
+
+/* Design tokens (palette, fonts, radii) live in tokens.css — load that first. */
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--surface);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Accessibility helpers ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+.print-only { display: none; }  /* revealed inside @media print */
+
+.skip-link {
+  position: absolute;
+  left: 12px; top: -48px;
+  background: var(--brand);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  z-index: 50;
+  transition: top .18s ease;
+  text-decoration: none;
+}
+.skip-link:focus { top: 12px; }
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: 8px;
+}
+
+/* ---------- Institutional identity strip ----------
+   Provenance, not navigation: the marks are unlinked. The inner column
+   reuses --maxw and the 24px gutter so the logos align with the wordmark
+   below rather than looking bolted on. --line-soft (lighter than the
+   masthead's --line) subdivides the white block instead of cutting a
+   section break. Duplicated in landing.css — keep the two in step.
+   Hidden in @media print, with .masthead. */
+.orgbar {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line-soft);
+}
+.orgbar__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+/* Heights differ because a circular mark reads optically heavier than a
+   wordmark at the same height. 72px is the floor at which the Cambridge
+   lock-up's second line stays legible (its cap height is 10% of the mark). */
+.orgbar__logo { display: block; width: auto; }
+.orgbar__logo--cam { height: 72px; }
+.orgbar__logo--lab { height: 64px; }
+.orgbar__rule {
+  align-self: center;
+  width: 1px;
+  height: 48px;
+  background: var(--line);
+}
+
+/* ---------- Masthead ---------- */
+.masthead {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.masthead__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 22px 24px 24px;
+}
+.masthead__back { margin: 0 0 10px; font-size: .85rem; }
+.masthead__back a {
+  color: var(--muted);
+  font-weight: 600;
+  text-decoration: none;
+}
+.masthead__back a:hover { color: var(--brand); }
+.wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.4rem);
+}
+.wordmark__cam { color: var(--ink); }
+.wordmark__kit { color: var(--brand); }
+.wordmark__full {
+  margin-left: 16px;
+  font-size: .82rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--muted);
+  align-self: center;
+}
+.masthead__eyebrow {
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  font-size: .95rem;
+}
+.masthead__link {
+  margin: 6px 0 0;
+  font-size: .9rem;
+  color: var(--muted);
+}
+.masthead__link a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--brand-soft);
+  white-space: nowrap;
+}
+.masthead__link a:hover { border-bottom-color: var(--brand); }
+
+/* ---------- Layout ---------- */
+.layout {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 28px 24px 8px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.95fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* ---------- Form column ---------- */
+.form__intro h1 {
+  margin: 0 0 6px;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+.form__lede {
+  margin: 0 0 18px;
+  color: var(--ink-soft);
+  max-width: 56ch;
+}
+
+.group {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 6px 18px 10px;
+  margin: 0 0 18px;
+  box-shadow: var(--shadow);
+}
+.group__legend {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 14px 2px 6px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-size: .76rem;
+  color: var(--brand-ink);
+}
+.group__count {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+/* one finding */
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 2px;
+  border-top: 1px solid var(--line-soft);
+}
+.item:first-of-type { border-top: 0; }
+
+.item__legend {
+  font-size: .98rem;
+  color: var(--ink);
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+.item__quotes { color: var(--muted); }
+.item__print-value { display: none; }  /* shown only when printing */
+
+/* segmented Yes / No control built from real radios */
+.seg {
+  display: inline-flex;
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  padding: 3px;
+}
+.seg__opt { position: relative; }
+.seg__opt input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.seg__opt span {
+  display: block;
+  min-width: 58px;
+  text-align: center;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.seg__opt input:checked + span {
+  background: var(--paper);
+  color: var(--brand-ink);
+  box-shadow: var(--shadow);
+}
+.seg__opt input:focus-visible + span { box-shadow: var(--ring); }
+.seg__opt input:checked.is-yes + span { color: var(--brand); }
+.seg__opt:hover span { color: var(--ink); }
+
+.form__actions { margin: 4px 0 8px; }
+.btn-reset {
+  font-family: var(--font-sans);
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--brand-ink);
+  background: var(--brand-tint);
+  border: 1px solid var(--brand-soft);
+  border-radius: 999px;
+  padding: 9px 18px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.btn-reset:hover { background: var(--brand-soft); }
+
+/* primary call-to-action in the readout card */
+.btn-pdf {
+  display: block;
+  width: 100%;
+  margin: 14px 0 0;
+  font-family: var(--font-sans);
+  font-size: .92rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--brand);
+  border: 1px solid var(--brand);
+  border-radius: 999px;
+  padding: 11px 18px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.btn-pdf:hover { background: var(--brand-ink); }
+
+/* ---------- Readout (signature) ---------- */
+.readout__sticky {
+  position: sticky;
+  top: 18px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 20px 18px;
+}
+.readout__title {
+  margin: 0;
+  font-size: .76rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.score {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 4px 0 14px;
+  font-family: var(--font-mono);
+}
+.score__value {
+  font-size: 3.6rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.score__total {
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+/* the gauge */
+.gauge { margin: 0 0 16px; }
+.gauge__track {
+  position: relative;
+  display: flex;
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.gauge__zone { display: block; height: 100%; opacity: .42; }
+.gauge__zone--low  { width: 29.17%; background: var(--low); }
+.gauge__zone--med  { width: 25%;    background: var(--med); }
+.gauge__zone--high { width: 45.83%; background: var(--high); }
+
+.gauge__needle {
+  position: absolute;
+  top: -4px;
+  left: 0%;
+  width: 4px;
+  height: 22px;
+  border-radius: 3px;
+  background: var(--ink);
+  transform: translateX(-50%);
+  transition: left .32s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 0 0 2px var(--paper);
+}
+.gauge__scale,
+.gauge__bands {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  color: var(--muted);
+}
+.gauge__scale {
+  font-size: .72rem;
+  margin-top: 7px;
+}
+.gauge__bands {
+  margin-top: 3px;
+  font-size: .66rem;
+  letter-spacing: .01em;
+}
+
+/* band result card — colour applied via [data-band] */
+.band {
+  border-radius: var(--radius-sm);
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  transition: background .2s ease, border-color .2s ease;
+}
+.band__name {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 4px;
+  font-weight: 700;
+  font-size: 1.08rem;
+}
+.band__dot {
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex: 0 0 auto;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.6);
+}
+.band__action { margin: 0; color: var(--ink-soft); font-size: .95rem; }
+
+.band[data-band="low"]  { background: var(--low-bg);  border-color: #bfe0cb; }
+.band[data-band="low"]  .band__dot { background: var(--low); }
+.band[data-band="low"]  .band__name { color: #15663a; }
+
+.band[data-band="med"]  { background: var(--med-bg);  border-color: #ecd6a6; }
+.band[data-band="med"]  .band__dot { background: var(--med); }
+.band[data-band="med"]  .band__name { color: #8a5908; }
+
+.band[data-band="high"] { background: var(--high-bg); border-color: #f0c2bb; }
+.band[data-band="high"] .band__dot { background: var(--high); }
+.band[data-band="high"] .band__name { color: #9a2b20; }
+
+.readout__caveat {
+  margin: 13px 0 0;
+  font-size: .82rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line-soft);
+  padding-top: 11px;
+}
+
+/* ---------- Notes / evidence ---------- */
+.notes {
+  max-width: var(--maxw);
+  margin: 18px auto 0;
+  padding: 22px 24px 8px;
+}
+.notes__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+.note {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+.note h3 {
+  margin: 0 0 8px;
+  font-size: .82rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+}
+.note p { margin: 0 0 10px; font-size: .94rem; color: var(--ink-soft); }
+.note__flag {
+  font-size: .86rem;
+  color: var(--ink-soft);
+  background: var(--med-bg);
+  border-left: 3px solid var(--med);
+  padding: 9px 12px;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Feedback card — the one outbound action on this page. Tinted rather than
+   traffic-light coloured: green/amber/red stay reserved for triage bands. */
+.note--feedback {
+  background: var(--brand-tint);
+  border-color: var(--brand-soft);
+}
+.note__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  font-size: .9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .15s ease;
+}
+.note__cta:hover { background: var(--brand-ink); }
+
+/* The feedback card ships hidden until its survey URL is filled in; make sure
+   no later rule can reveal a card that points at a placeholder. */
+[hidden] { display: none !important; }
+
+.actions { margin: 0; }
+.actions__row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 7px 0;
+  border-top: 1px solid var(--line-soft);
+}
+.actions__row:first-child { border-top: 0; }
+.actions__row dd { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+.actions__chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.actions__row[data-band="low"]  .actions__chip { background: var(--low-bg);  color: #15663a; }
+.actions__row[data-band="med"]  .actions__chip { background: var(--med-bg);  color: #8a5908; }
+.actions__row[data-band="high"] .actions__chip { background: var(--high-bg); color: #9a2b20; }
+
+.refs { margin: 4px 0 0; padding-left: 18px; }
+.refs li { font-size: .82rem; color: var(--muted); margin-bottom: 7px; }
+.refs a {
+  color: var(--brand);
+  text-decoration: none;
+  border-bottom: 1px solid var(--brand-soft);
+  word-break: break-word;
+}
+.refs a:hover { border-bottom-color: var(--brand); }
+
+/* ---------- Footer ---------- */
+.footer {
+  max-width: var(--maxw);
+  margin: 8px auto 0;
+  padding: 22px 24px 40px;
+  color: var(--muted);
+  font-size: .85rem;
+}
+.footer__ver { font-family: var(--font-mono); font-size: .76rem; margin-left: 6px; }
+.footer__contact { margin: 6px 0 0; }
+.footer__contact a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--brand-soft);
+}
+.footer__contact a:hover { border-bottom-color: var(--brand); }
+.footer__disclaimer { margin: 6px 0 0; max-width: 70ch; }
+.footer__privacy {
+  margin: 10px 0 0;
+  max-width: 70ch;
+  font-size: .78rem;
+  color: var(--muted);
+}
+.footer__privacy a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+}
+.footer__privacy a:hover { border-bottom-color: var(--brand); }
+
+.noscript {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 16px 24px;
+  color: var(--high);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 880px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .readout__sticky {
+    position: sticky;
+    top: auto;
+    bottom: 0;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  /* On narrow screens the readout sits first so the band is always visible */
+  .form { order: 2; }
+  .readout { order: 1; }
+  .wordmark { flex-wrap: wrap; }
+  .wordmark__full { margin-left: 0; flex-basis: 100%; margin-top: 4px; }
+}
+
+/* Its own breakpoint, matching landing.css, so the strip is identical on
+   both pages — the layout above breaks at 880px, the identity strip does not. */
+@media (max-width: 720px) {
+  .orgbar__inner { padding: 14px 24px; gap: 16px; }
+  .orgbar__logo--cam { height: 62px; }
+  .orgbar__logo--lab { height: 55px; }
+  .orgbar__rule { height: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+  .gauge__needle,
+  .seg__opt span,
+  .band { transition: none !important; }
+}
+
+/* ---------- Print / PDF (browser "Save as PDF") ---------- */
+@page { margin: 16mm; }
+
+@media print {
+  body { background: #fff; color: #000; font-size: 11.5pt; }
+
+  /* hide interactive and screen-only chrome */
+  .skip-link,
+  .orgbar,
+  .masthead,
+  .form__intro,
+  .form__actions,
+  .readout,
+  .notes,
+  .footer,
+  .noscript,
+  .seg { display: none !important; }
+
+  .print-only { display: block; }
+
+  .layout { display: block; max-width: none; padding: 0; gap: 0; }
+
+  /* document header */
+  .print-head {
+    margin: 0 0 10pt;
+    padding: 0 0 8pt;
+    border-bottom: 2px solid #000;
+  }
+  .print-head__title { font-size: 16pt; font-weight: 700; margin: 0 0 4pt; }
+  .print-head__meta { margin: 0 0 2pt; }
+  .print-head__result { margin: 4pt 0 0; font-size: 12pt; }
+
+  /* findings list */
+  .group { border: none; box-shadow: none; padding: 0; margin: 0 0 8pt; }
+  .group__legend {
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding: 6pt 0 2pt;
+  }
+  .group__count { display: none; }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12pt;
+    padding: 4pt 0;
+    border-top: 1px solid #bbb;
+    break-inside: avoid;
+  }
+  .item__legend { font-size: 10.5pt; }
+  .item__print-value {
+    display: inline-block;
+    min-width: 40pt;
+    text-align: right;
+    font-weight: 700;
+    font-family: var(--font-mono);
+  }
+
+  /* document footer */
+  .print-foot {
+    margin: 12pt 0 0;
+    padding: 8pt 0 0;
+    border-top: 1px solid #000;
+    font-size: 9pt;
+    color: #000;
+  }
+  .print-foot p { margin: 0 0 4pt; }
+
+  a { color: #000; text-decoration: none; }
+}

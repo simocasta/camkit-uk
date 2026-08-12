@@ -1,0 +1,66 @@
+# This repo lives in a OneDrive-synced folder, so Windows and the sync client
+# will eventually drop their own files into it. Keep them out of a public repo.
+desktop.ini
+Thumbs.db
+ehthumbs.db
+$RECYCLE.BIN/
+*.lnk
+
+# OneDrive / Office lock and conflict files
+~$*
+*conflicted copy*
+
+# macOS and Linux
+.DS_Store
+._*
+.Trash-*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Wrangler local state. `wrangler dev` writes a cf.json here containing the
+# IP-geolocation of whoever ran it — city, region, lat/long, ASN — plus
+# miniflare cache databases. None of it belongs in a public repo.
+.wrangler/
+
+# Scratch work that should never reach the published site
+*.bak
+*.orig
+*.tmp
+/tmp/
+
+# Full-resolution logo originals (~1.6 MB, unreferenced by the site). The
+# trimmed, resized, quantised derivatives the pages actually load are checked
+# in under assets/logos/. Keep the originals locally — the derivation recipe
+# is in the README Notes so they can be rebuilt from a fresh copy of the marks.
+/logos/
+
+# Maintainer documentation — kept local, not published and not in the repo.
+# NOTE: this is the deployment runbook and the survey/ethics spec. Anyone who
+# clones this repo gets no deploy instructions, so the things a deployer must
+# not get wrong are duplicated where they cannot be missed: the CSP
+# report-only -> enforce rollout is commented in `_headers`, and the font
+# regeneration recipe is commented in `assets/tokens.css`. Keep it that way.
+/docs/
+
+# AI coding-assistant instructions and local agent state
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+GEMINI.md
+QWEN.md
+.claude/
+.cursor/
+.cursorrules
+.windsurfrules
+.aider*
+.continue/
+.codeium/
+.roo/
+.clinerules
+.mcp.json
+.github/copilot-instructions.md
