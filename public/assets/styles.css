@@ -62,20 +62,44 @@ body {
   background: var(--paper);
   border-bottom: 1px solid var(--line-soft);
 }
+/* The University lock-up sits left, the two local marks right, with the gap
+   between them doing the separating — space-between rather than a spacer div.
+   flex-wrap earns its place below ~485px, where the two groups stop fitting on
+   one line (measured: they need 436px of content box, and 485 - 48px of gutter
+   is where that runs out). They stack instead of overflowing, and because
+   space-between leaves a lone item on a line at flex-start, both rows come out
+   flush to the 24px gutter with no extra rule needed. Verified down to 320px.
+   The 14px row gap therefore only ever applies once wrapped. */
 .orgbar__inner {
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 18px 24px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+}
+/* Exists only to keep the Division mark, its rule and the lab badge together as
+   one unit. Without it, space-between would spread all three evenly across the
+   full width and strand the rule in open space. */
+.orgbar__group {
+  display: flex;
+  align-items: center;
   gap: 22px;
 }
-/* Heights differ because a circular mark reads optically heavier than a
-   wordmark at the same height. 72px is the floor at which the Cambridge
-   lock-up's second line stays legible (its cap height is 10% of the mark). */
+/* Three heights, all deliberate. 72px is the floor at which the Division
+   lock-up's second line stays legible (its cap height is 10% of the mark); the
+   lab badge is cut to 64px because a circular mark reads optically heavier than
+   a wordmark at the same height. The University lock-up is shorter still at
+   48px but 231px wide, which puts it at near-identical visual area to the 72px
+   Division mark — so neither end of the strip outweighs the other, while its
+   own text still reads larger than the sub-brands', as the hierarchy wants.
+   Change any of these and change the matching value in the 720px block below. */
 .orgbar__logo { display: block; width: auto; }
-.orgbar__logo--cam { height: 72px; }
-.orgbar__logo--lab { height: 64px; }
+.orgbar__logo--uni     { height: 48px; }
+.orgbar__logo--surgery { height: 72px; }
+.orgbar__logo--lab     { height: 64px; }
 .orgbar__rule {
   align-self: center;
   width: 1px;
@@ -558,9 +582,11 @@ body {
 /* Its own breakpoint, matching landing.css, so the strip is identical on
    both pages — the layout above breaks at 880px, the identity strip does not. */
 @media (max-width: 720px) {
-  .orgbar__inner { padding: 14px 24px; gap: 16px; }
-  .orgbar__logo--cam { height: 62px; }
-  .orgbar__logo--lab { height: 55px; }
+  .orgbar__inner { padding: 14px 24px; gap: 12px 16px; }
+  .orgbar__group { gap: 16px; }
+  .orgbar__logo--uni     { height: 40px; }
+  .orgbar__logo--surgery { height: 62px; }
+  .orgbar__logo--lab     { height: 55px; }
   .orgbar__rule { height: 40px; }
 }
 

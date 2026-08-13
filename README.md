@@ -33,6 +33,7 @@ on purpose. Repo metadata, maintainer docs and logo originals sit outside it and
 │       ├── fonts/             # self-hosted IBM Plex woff2
 │       │   └── OFL.txt        #   IBM Plex is SIL OFL 1.1 — must ship with the fonts
 │       ├── logos/
+│       │   ├── cambridge-university.png    # University of Cambridge lock-up (strip, left)
 │       │   ├── cambridge-surgery.png       # Division of Trauma & Orthopaedic Surgery
 │       │   └── mcdonnell-lab.png           # McDonnell Lab, Cambridge
 │       └── papers/
@@ -111,11 +112,11 @@ ethics position are maintainer notes and are kept outside this repo.
   offline. Prints the current state with score, band, recommended action, date, disclaimer
   and citation. A print stylesheet (`@media print` in `styles.css`) handles the layout.
 - **Logos:** `public/assets/logos/` holds derivatives, not the originals — each mark is cropped to
-  its alpha bounding box (the Cambridge lock-up ships with 67px of padding on top and 7px on
+  its alpha bounding box (the Division lock-up ships with 67px of padding on top and 7px on
   the bottom, so untrimmed it sits visibly high), resized to 3× its CSS display height, and
-  palette-quantised to 128 colours. That took the McDonnell badge from 1.5 MB to 7 KB with a
-  mean error of 1.7/255 against the original. Full-resolution originals are kept outside the
-  repo. To rebuild from a fresh copy of the marks, with Pillow:
+  palette-quantised. That took the McDonnell badge from 1.5 MB to 7 KB with a mean error of
+  1.7/255 against the original. Full-resolution originals are kept outside the repo. To
+  rebuild from a fresh copy of the marks, with Pillow:
 
   ```python
   im = Image.open(src).convert('RGBA')
@@ -124,9 +125,17 @@ ethics position are maintainer notes and are kept outside this repo.
   im.quantize(colors=128, method=Image.FASTOCTREE).save(dst, optimize=True)
   ```
 
-  Display heights are set in the `.orgbar` block of `landing.css` / `styles.css`; keep the
-  `width`/`height` attributes in both pages equal to the real pixel dimensions or the strip
-  will shift on load.
+  **128 colours is the default, not a rule.** The University lock-up needs 256: its shield is
+  heraldic red and gold with fine detail, and 128 leaves a worst-case error of 52/255 against
+  the resized original where 256 gives 27/255 — for 0.5 KB. Measure rather than assume, with
+  `ImageChops.difference` against the pre-quantise image.
+
+  The strip appears on **three** pages — `index.html`, `calculator/index.html` and `404.html`
+  (which must use root-relative paths). Display heights are set in the `.orgbar` block of
+  `landing.css` **and** `styles.css`, which are kept identical; keep the `width`/`height`
+  attributes on all three pages equal to the real pixel dimensions or the strip will shift on
+  load. `_headers` caches `/assets/logos/*` as `immutable` for a year, so a changed mark must
+  ship under a new filename — editing one in place will not reach anyone who has visited.
 - **Offline use:** IBM Plex Sans and IBM Plex Mono are self-hosted under `public/assets/fonts/`, so
   the pages render identically with no external network access — no third-party font host to
   be blocked by a hospital proxy, and no visitor IP handed to one. The regeneration recipe is

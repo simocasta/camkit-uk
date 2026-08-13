@@ -27,15 +27,23 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <!-- Identity strip — see the note in index.html for why the right-hand pair is
+       wrapped. Root-relative src here, per the warning in the head: this page
+       renders at any unmatched depth. -->
   <div class="orgbar">
     <div class="orgbar__inner">
-      <img class="orgbar__logo orgbar__logo--cam"
-           src="/assets/logos/cambridge-surgery.png" width="483" height="216"
-           alt="University of Cambridge — Division of Trauma and Orthopaedic Surgery" />
-      <span class="orgbar__rule" aria-hidden="true"></span>
-      <img class="orgbar__logo orgbar__logo--lab"
-           src="/assets/logos/mcdonnell-lab.png" width="180" height="180"
-           alt="McDonnell Lab, Cambridge" />
+      <img class="orgbar__logo orgbar__logo--uni"
+           src="/assets/logos/cambridge-university.png" width="693" height="144"
+           alt="University of Cambridge" />
+      <div class="orgbar__group">
+        <img class="orgbar__logo orgbar__logo--surgery"
+             src="/assets/logos/cambridge-surgery.png" width="483" height="216"
+             alt="University of Cambridge — Division of Trauma and Orthopaedic Surgery" />
+        <span class="orgbar__rule" aria-hidden="true"></span>
+        <img class="orgbar__logo orgbar__logo--lab"
+             src="/assets/logos/mcdonnell-lab.png" width="180" height="180"
+             alt="McDonnell Lab, Cambridge" />
+      </div>
     </div>
   </div>
 
