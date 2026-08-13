@@ -41,10 +41,13 @@
   // unreviewed clinical wording at a findable public URL with no camkit.uk
   // context and no way to stop someone bookmarking it.
   //
-  // workers_dev: true for now, so there is somewhere to test before the domain
-  // is attached. TODO: flip to false once camkit.uk is live, so the site has
-  // exactly one address and there is no second copy to find or cite.
-  "workers_dev": true,
+  // workers_dev: false — camkit.uk and www.camkit.uk went live as Custom
+  // Domains on 2026-08-13, so the Worker no longer needs an address of its
+  // own. Turning it off collapses the site to the domain we publish: no third
+  // copy at camkit-uk.<account>.workers.dev for someone to find, bookmark or
+  // cite, and no third hostname for GoatCounter to count separately. Test
+  // locally with `npx wrangler dev` (see docs/deploying.md), not by deploying.
+  "workers_dev": false,
   "preview_urls": false,
 
   "assets": {

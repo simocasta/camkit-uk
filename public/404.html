@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Page not found — CamKIT</title>
+  <meta name="description" content="That address does not exist on the CamKIT site." />
+  <meta name="color-scheme" content="light" />
+
+  <!-- No rel=canonical here, unlike the two real pages: Workers serves this
+       file at whatever wrong address was requested, so there is no single URL
+       it belongs at. noindex keeps those mistyped addresses out of search
+       results rather than letting a 404 accumulate its own listings. -->
+  <meta name="robots" content="noindex" />
+
+  <!-- EVERY path on this page is root-relative (/assets/...), which is the one
+       way this file differs from index.html. It renders at any unmatched URL —
+       /calculater/, /calculator/index, /a/b/c — and a relative path would
+       resolve against that wrong directory, so the page would arrive unstyled
+       and logo-less exactly when someone is already lost. Keep the leading
+       slashes if you edit this. -->
+  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+  <link rel="stylesheet" href="/assets/tokens.css" />
+  <link rel="stylesheet" href="/assets/landing.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="orgbar">
+    <div class="orgbar__inner">
+      <img class="orgbar__logo orgbar__logo--cam"
+           src="/assets/logos/cambridge-surgery.png" width="483" height="216"
+           alt="University of Cambridge — Division of Trauma and Orthopaedic Surgery" />
+      <span class="orgbar__rule" aria-hidden="true"></span>
+      <img class="orgbar__logo orgbar__logo--lab"
+           src="/assets/logos/mcdonnell-lab.png" width="180" height="180"
+           alt="McDonnell Lab, Cambridge" />
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <p class="hero__eyebrow">Page not found · HTTP 404</p>
+
+      <h1 class="hero__title">
+        <span class="wordmark"><span class="wordmark__cam">Cam</span><span class="wordmark__kit">KIT</span></span>
+        <span class="hero__name">Page not found</span>
+      </h1>
+
+      <p class="hero__headline">That address doesn't exist on this site.</p>
+      <p class="hero__support">
+        The link was probably mistyped, or it points at a version of the site that has moved.
+        Nothing has been lost — CamKIT publishes two pages, both linked below.
+      </p>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="/">CamKIT home <span aria-hidden="true">→</span></a>
+        <a class="btn btn--secondary" href="/calculator/">Open the calculator</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section" aria-labelledby="lost-heading">
+      <h2 id="lost-heading" class="section__label">If you followed a link</h2>
+      <div class="section__body">
+        <p>
+          If you arrived here from a paper, a printout or a colleague's message, the link that
+          brought you is wrong and we would like to correct it at the source — please tell us
+          where you found it at <a href="mailto:info@camkit.uk">info@camkit.uk</a>.
+        </p>
+        <p>
+          The calculator itself is at <strong>camkit.uk/calculator/</strong> and is the address
+          worth citing. It runs entirely in your browser: nothing you enter there is stored or
+          transmitted, and that is as true of a mistyped URL as of the real one — this page has
+          collected nothing about how you reached it.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Cambridge Knee Injury Tool · University of Cambridge.
+      <span class="footer__ver">CamKIT site · v0.1</span>
+    </p>
+    <p class="footer__contact">
+      Questions about CamKIT — <a href="mailto:info@camkit.uk">info@camkit.uk</a>
+    </p>
+    <p class="footer__disclaimer">
+      <strong>For research use only.</strong> No data entered in the
+      calculator is stored or transmitted — all scoring runs in your browser.
+    </p>
+  </footer>
+
+  <!-- Deliberately no analytics on this page. The other two load GoatCounter
+       and disclose it in .footer__privacy; an error page does not need
+       measuring, and adding a third-party script here would mean either
+       repeating that disclosure or quietly breaking the promise the footer
+       above makes. The cost is that broken inbound links stay invisible — if
+       you ever want that visibility, copy BOTH analytics tags AND the
+       .footer__privacy paragraph across from index.html, not just the tags. -->
+</body>
+</html>

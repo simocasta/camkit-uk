@@ -7,6 +7,12 @@
   <meta name="description" content="The Cambridge Knee Injury Tool (CamKIT): a research prototype of a 12-point clinical prediction tool that triages acute soft-tissue knee injuries into three traffic-light bands. For research use only. Background, evidence, publications and the online calculator." />
   <meta name="color-scheme" content="light" />
 
+  <!-- The site answers on both camkit.uk and www.camkit.uk (two Custom Domains
+       on the same Worker), so without this every page exists at two indexable
+       addresses and a citation could reasonably point at either. The apex is
+       the address we publish. Update this if the site ever moves. -->
+  <link rel="canonical" href="https://camkit.uk/" />
+
   <!-- IBM Plex is self-hosted under assets/fonts/ and declared in tokens.css.
        No third-party font host, so nothing leaks a visitor's IP and the pages
        render on offline / locked-down hospital networks. -->
