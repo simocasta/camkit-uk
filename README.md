@@ -67,8 +67,9 @@ Deployment is `npx wrangler deploy` (Cloudflare Workers static assets). Any stat
 serve `public/`, but see the Deploying note below about which ones honour `_headers`.
 
 > **Deploying?** Run `./scripts/check-analytics.sh` first and treat a failure as blocking.
-> Then read the comment block at the top of `public/_headers`: the Content-Security-Policy ships as
-> **Report-Only** and must be verified on the live site before it is switched to enforcing.
+> Then read the comment block at the top of `public/_headers`: the Content-Security-Policy is
+> **enforcing**, so anything that adds a script, a style or a call to a new host has to go back
+> through Report-Only on the live site before it ships.
 > Note that `public/_headers` and `public/_redirects` are read by Cloudflare Pages and Netlify but
 > **ignored by GitHub Pages**, which would silently drop every security header.
 >

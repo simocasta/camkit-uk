@@ -12,16 +12,20 @@
 # GoatCounter's, which is the one third-party script we load and therefore the
 # only realistic route by which a compromise could reach a clinician's entries.
 #
-# ROLLOUT: this ships as Content-Security-Policy-Report-Only, which reports
-# violations to the browser console WITHOUT blocking anything. Load both pages
-# on the deployed site, open devtools, click through the calculator and print
-# to PDF, and confirm the console is clean. Then rename the header to
-# Content-Security-Policy to enforce it. Enforcing an unverified policy can
-# silently break the gauge or the counter, which is worse than no policy.
+# ENFORCING since 2026-08-13. It shipped as Content-Security-Policy-Report-Only
+# and was switched over only after a clean devtools console on the live site:
+# both pages plus the 404, working the calculator and printing to PDF.
+#
+# If you ever add a script, a stylesheet, an inline style attribute or a call to
+# a new host, rename this back to Content-Security-Policy-Report-Only, redeploy,
+# repeat that check, and only then enforce again. Enforcing an unverified policy
+# can silently break the gauge or the counter, which is worse than no policy at
+# all — and unlike a visible error, nobody reports a gauge that quietly stopped
+# moving. Rollback is renaming this header and redeploying; nothing else.
 # ---------------------------------------------------------------------------
 
 /*
-  Content-Security-Policy-Report-Only: default-src 'none'; script-src 'self' https://gc.zgo.at; style-src 'self'; font-src 'self'; img-src 'self' https://camkit.goatcounter.com; connect-src https://camkit.goatcounter.com; form-action 'none'; base-uri 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'self' https://gc.zgo.at; style-src 'self'; font-src 'self'; img-src 'self' https://camkit.goatcounter.com; connect-src https://camkit.goatcounter.com; form-action 'none'; base-uri 'none'; frame-ancestors 'none'
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer
