@@ -141,9 +141,27 @@ ethics position are maintainer notes and are kept outside this repo.
   be blocked by a hospital proxy, and no visitor IP handed to one. The regeneration recipe is
   in the comment at the top of `public/assets/tokens.css`; IBM Plex is SIL OFL 1.1 and
   `public/assets/fonts/OFL.txt` must ship alongside the font files.
+- **`<legend>` does not lay out like a normal element — and the floats in `styles.css` are
+  what fix that.** A browser renders a `<legend>` *into* its `<fieldset>`'s block-start
+  border: it ignores the fieldset's `padding`, interrupts the border line it sits on, is
+  skipped as a flex item, and leaves the UA's own 3-sided fieldset border and
+  `margin-inline: 2px` in place. Both `.group__legend` and `.item__legend` therefore carry
+  `float: left`, which per the HTML rendering spec makes them no longer the "rendered
+  legend" — the same reset Bootstrap Reboot ships. **Deleting those two declarations does
+  not just change the spacing:** the group titles drop onto the card's top edge, every
+  finding turns into a bordered box with its Yes/No control stacked underneath, and the
+  printed PDF loses its right-hand value column. Raising `padding-top` does not help — with
+  a rendered legend it only makes the card taller.
 - **Source of truth:** item wording and scoring directions follow Table 1 of Molloy et al.,
   *BMJ Open Sport Exerc Med* 2025;11(1):e002357. Bands and recommended actions follow the
-  CamKIT traffic-light pathway.
+  CamKIT traffic-light pathway. **The `?` definitions come from somewhere else:** Table 1
+  gives wording but no definitions, so the `note` fields in `camkit.js` follow the
+  participant questionnaire in Table 3 of Molloy et al., *Cureus* 2025;17(8):e89509 — the
+  operational definitions the published performance figures were produced against. Ten of
+  the twelve findings carry one; instability and "popping" are defined by their own quoted
+  synonyms and do not. Two notes ("twisting or pivoting", "locking") are editorial
+  phrasing rather than lifted from a paper. Keep that split intact: a definition on this
+  page is a claim about how CamKIT was scored, not a gloss.
 
 ## Licence
 

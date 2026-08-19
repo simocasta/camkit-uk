@@ -185,15 +185,31 @@ body {
   max-width: 56ch;
 }
 
+/* ---------- The 12 findings ----------
+   THE FLOATS ON THE TWO LEGENDS BELOW ARE LOAD-BEARING — do not delete them.
+   A <legend> is not laid out as a normal child of its <fieldset>: the browser
+   renders it INTO the fieldset's block-start border, where it ignores the
+   fieldset's padding and interrupts the border line it sits on, and where a
+   flex fieldset skips it as a flex item. Without the floats the group titles
+   sit on the card's top edge (raising their padding-top only makes the card
+   taller — measured, it does not move the text), every finding stacks its
+   Yes/No control under the label instead of honouring the row layout below,
+   and .item's default 3-sided fieldset border is painted because only
+   border-top was reset. Per the HTML rendering spec a floated legend is not
+   the "rendered legend", so float restores ordinary layout; float is then
+   itself ignored once the element is a flex item. Same reset Bootstrap
+   Reboot ships globally. */
 .group {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--paper);
-  padding: 6px 18px 10px;
+  padding: 10px 18px;
   margin: 0 0 18px;
   box-shadow: var(--shadow);
 }
 .group__legend {
+  float: left;
+  width: 100%;
   display: flex;
   align-items: baseline;
   gap: 10px;
@@ -211,31 +227,95 @@ body {
   letter-spacing: 0;
 }
 
-/* one finding */
+/* one finding. flex-wrap does double duty: it lets a long label and the
+   ~124px control wrap onto separate lines rather than crushing at ~320px,
+   and it is what drops .item__note onto its own line below both. */
 .item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 16px;
+  margin: 0;              /* the UA sheet gives every fieldset margin-inline: 2px,
+                             which pushed the findings 2px right of the group title
+                             and shortened every divider by 4px */
   padding: 13px 2px;
+  border: 0;
   border-top: 1px solid var(--line-soft);
+  min-width: 0;
 }
-.item:first-of-type { border-top: 0; }
+.item:first-of-type { border-top: 0; clear: left; }
 
 .item__legend {
+  float: left;
+  /* The cap is what keeps the "?" beside its label. Sized purely by its
+     content a long label would overflow the line, flex would wrap the row,
+     and the "?" would land on the line below the label it explains. Capped,
+     the label wraps its own text instead and the row never breaks: 60% always
+     leaves room for the 24px "?", the gaps and the 124px control down to a
+     450px card, well below the 560px breakpoint that stacks them anyway. */
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 60%;
   font-size: .98rem;
   color: var(--ink);
   margin: 0;
   border: 0;
   padding: 0;
 }
-.item__quotes { color: var(--muted); }
 .item__print-value { display: none; }  /* shown only when printing */
 
-/* segmented Yes / No control built from real radios */
+/* "?" disclosure — only on the findings whose label alone leaves a reader
+   unsure how to answer. A sibling of the legend, never a child of it: a "?"
+   inside the legend would be absorbed into the fieldset's accessible name. */
+.item__help {
+  position: relative;
+  flex: 0 0 auto;
+  margin-left: -8px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: .8rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+/* The circle stays 24px so it does not shout, but the tap target is 46px —
+   inset on a pseudo-element so widening it costs the row no height. */
+.item__help::after { content: ""; position: absolute; inset: -11px; }
+.item__help:hover { color: var(--brand-ink); border-color: var(--brand-soft); }
+.item__help[aria-expanded="true"] {
+  background: var(--brand-tint);
+  border-color: var(--brand-soft);
+  color: var(--brand-ink);
+}
+.item__note {
+  flex: 0 0 100%;
+  margin: 0;
+  padding: 10px 13px;
+  background: var(--brand-tint);
+  border-radius: var(--radius-sm);
+  font-size: .88rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* segmented Yes / No control built from real radios. margin-left:auto rather
+   than justify-content:space-between on .item — the row can hold three items
+   (label, "?", control) and space-between would strand the "?" in the middle. */
 .seg {
   display: inline-flex;
   flex: 0 0 auto;
+  margin-left: auto;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface);
@@ -590,6 +670,20 @@ body {
   .orgbar__rule { height: 40px; }
 }
 
+/* Below this there is not enough room for a label and the control side by
+   side. Break it deliberately: the label keeps the first line with its "?",
+   and the control spans the full width underneath — a larger tap target than
+   the inline pill, which matters most on the phone used pitchside. */
+@media (max-width: 560px) {
+  .item { align-items: flex-start; }
+  /* the control has its own line here, so the label may use the rest of this
+     one — all but the "?" and its gap */
+  .item__legend { max-width: calc(100% - 40px); }
+  .seg { flex: 0 0 100%; margin-left: 0; }
+  .seg__opt { flex: 1 1 0; }
+  .seg__opt span { min-width: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
   .gauge__needle,
@@ -613,6 +707,8 @@ body {
   .notes,
   .footer,
   .noscript,
+  .item__help,
+  .item__note,
   .seg { display: none !important; }
 
   .print-only { display: block; }
@@ -649,6 +745,7 @@ body {
   .item__legend { font-size: 10.5pt; }
   .item__print-value {
     display: inline-block;
+    margin-left: auto;   /* .seg is hidden here, so this pins the right column */
     min-width: 40pt;
     text-align: right;
     font-weight: 700;

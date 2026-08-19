@@ -12,35 +12,83 @@
    reframed from the source encoding to keep that rule consistent:
    weight-bearing is asked as "Inability to weight bear", and
    mechanism is asked as "Non-contact mechanism of injury".
+
+   `note` is the "?" explanation. Table 1 gives item wording but no
+   definitions; those come from the participant questionnaire in
+   Table 3 of Molloy T, Gompels BD, Castagno S, Dowsett M, McCaskie A,
+   McDonnell S. Cureus 2025;17(8):e89509 — the operational definitions
+   the tool was actually scored against. Only findings whose label
+   alone leaves a reader unsure how to answer carry one; instability
+   and "popping" are defined by their own quoted synonyms and do not.
    ============================================================ */
 
 (function () {
   "use strict";
 
-  /** @typedef {{ id: string, label: string, quotes?: string }} Item */
+  /** @typedef {{ id: string, label: string, note?: string }} Item */
 
   /** @type {{ title: string, items: Item[] }[]} */
   const GROUPS = [
     {
       title: "History & mechanism",
       items: [
-        { id: "h_injury",     label: "Previous soft tissue injury to the same knee" },
-        { id: "activity",     label: "Injured during a high-risk sport or activity" },
-        { id: "noncontact",   label: "Non-contact mechanism of injury" },
-        { id: "twisting",     label: "Twisting or pivoting of the knee during the injury" },
-        { id: "hyperext",     label: "Hyperextension of the knee during the injury" },
+        {
+          id: "h_injury",
+          label: "Previous soft tissue injury to the same knee",
+          note: "Any earlier injury to the ligaments, meniscus or cartilage of the knee that is injured now. An injury to the other knee does not count.",
+        },
+        {
+          id: "activity",
+          label: "Injured during a high-risk sport or activity",
+          note: "High-risk activities involve cutting, pivoting on a planted foot, landing from a jump, sudden deceleration or sharp changes of direction — for example rugby, football, skiing or basketball. Lower-risk activities load the knee more predictably — for example jogging, cycling, golf or weight training. If the activity is not listed, use the closest match.",
+        },
+        {
+          id: "noncontact",
+          label: "Non-contact mechanism of injury",
+          note: "Yes when there was no direct blow to the knee and the injury came from the patient’s own movement — twisting, landing, stopping suddenly. No if something or someone struck the inside or outside of the knee.",
+        },
+        {
+          id: "twisting",
+          label: "Twisting or pivoting of the knee during the injury",
+          note: "Pivoting means the foot stayed planted while the body turned over it, so the rotation went through the knee. As reported at the moment of injury.",
+        },
+        {
+          id: "hyperext",
+          label: "Hyperextension of the knee during the injury",
+          note: "The knee was forced straight beyond its normal limit — bending backwards rather than forwards.",
+        },
       ],
     },
     {
       title: "Signs & symptoms",
       items: [
-        { id: "swelling",     label: "Global swelling of the injured knee" },
-        { id: "rapid",        label: "Rapid swelling of the knee" },
-        { id: "weightbear",   label: "Inability to weight bear" },
-        { id: "reduced_rom",  label: "Significant reduction in range of movement" },
-        { id: "instability",  label: "Instability, ", quotes: "‘giving way’ or ‘shifting’ of the knee" },
-        { id: "popping",      label: "", quotes: "‘Popping’, ‘cracking’ or ‘tearing’ felt or heard during the injury" },
-        { id: "locking",      label: "", quotes: "‘Locking’, ‘catching’ or ‘clicking’ in the injured knee" },
+        {
+          id: "swelling",
+          label: "Global swelling of the injured knee",
+          note: "The whole knee swelled, so it looks generally larger and loses its normal contours. Swelling over one spot only does not count.",
+        },
+        {
+          id: "rapid",
+          label: "Rapid swelling of the knee",
+          note: "Swelling that appeared within hours of the injury. Swelling that came on over the following days is delayed — score No.",
+        },
+        {
+          id: "weightbear",
+          label: "Inability to weight bear",
+          note: "In the hours after the injury the patient could neither carry on with the activity nor take four steps unsupported, two on each leg. Managing four steps counts as able to weight bear even if limping — score No.",
+        },
+        {
+          id: "reduced_rom",
+          label: "Significant reduction in range of movement",
+          note: "Since the injury the knee will not straighten or bend as far as it did before.",
+        },
+        { id: "instability",  label: "Instability, ‘giving way’ or ‘shifting’ of the knee" },
+        { id: "popping",      label: "‘Popping’, ‘cracking’ or ‘tearing’ felt or heard during the injury" },
+        {
+          id: "locking",
+          label: "‘Locking’, ‘catching’ or ‘clicking’ in the injured knee",
+          note: "Since the injury the knee has caught or jammed mid-movement — a block, as though something is in the way — rather than being generally stiff or painful to move.",
+        },
       ],
     },
   ];
@@ -90,20 +138,54 @@
     const fs = el("fieldset", "item");
 
     const legend = el("legend", "item__legend");
-    if (item.label) legend.append(text(item.label));
-    if (item.quotes) legend.append(spanText("item__quotes", item.quotes));
+    legend.append(text(item.label));
     fs.append(legend);
+
+    // The "?" goes NEXT TO the legend, never inside it: a legend's text is the
+    // fieldset's accessible name, so a "?" in there would be read as part of
+    // the finding. The panel it opens is a plain hidden element rather than a
+    // hover tooltip, so it works on touch and cannot be clipped by the card.
+    let note = null;
+    if (item.note) {
+      note = el("p", "item__note");
+      note.id = "note-" + item.id;
+      note.hidden = true;
+      note.append(text(item.note));
+      fs.append(buildHelp(item, note));
+    }
 
     const seg = el("div", "seg");
     seg.append(buildOption(item.id, "no", "No", true));
     seg.append(buildOption(item.id, "yes", "Yes", false));
     fs.append(seg);
 
+    if (note) fs.append(note);
+
     // Print-only value: legible "Yes"/"No" shown in the PDF in place of the toggle.
     fs.append(spanText("item__print-value", "No"));
 
     return fs;
   }
+
+  function buildHelp(item, note) {
+    const btn = el("button", "item__help");
+    btn.type = "button";                       // never submits the form
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-controls", note.id);
+    // Ten buttons all called "?" are useless in a screen reader's element
+    // list, so each one names the finding it explains.
+    btn.setAttribute("aria-label", "What counts as: " + item.label);
+    btn.append(text("?"));
+
+    btn.addEventListener("click", function () {
+      const open = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!open));
+      note.hidden = open;
+    });
+
+    return btn;
+  }
+
 
   function buildOption(name, value, labelText, checked) {
     const wrap = el("label", "seg__opt");
