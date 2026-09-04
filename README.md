@@ -37,7 +37,7 @@ on purpose. Repo metadata, maintainer docs and logo originals sit outside it and
 │       │   ├── cambridge-surgery.png       # Division of Trauma & Orthopaedic Surgery
 │       │   └── mcdonnell-lab.png           # McDonnell Lab, Cambridge
 │       └── papers/
-│           └── molloy-2025-camkit-bmj-osem.pdf   # open-access paper (CC BY-NC 4.0)
+│           └── molloy-2025-camkit-bmj-osem.pdf   # open-access paper (CC BY 4.0)
 ├── scripts/
 │   └── check-analytics.sh     # pre-deploy guardrail — run before every deploy
 ├── wrangler.jsonc             # Cloudflare Workers config; points at public/
@@ -171,7 +171,7 @@ The site's own source — HTML, CSS, JavaScript and the maintainer docs — is
 | | Licence |
 | --- | --- |
 | `logos/`, `public/assets/logos/` | University of Cambridge and McDonnell Lab marks. **All rights reserved** — not licensed for reuse. Remove them from any fork; reusing them implies an endorsement that does not exist. |
-| `public/assets/papers/*.pdf` | © Author(s) 2025, CC BY-NC 4.0 — the publisher's licence, unaffected by ours. |
+| `public/assets/papers/*.pdf` | © Author(s) 2025, CC BY 4.0 — the publisher's licence, unaffected by ours. |
 | `public/assets/fonts/` | IBM Plex, © 2017 IBM Corp., SIL OFL 1.1. `public/assets/fonts/OFL.txt` must travel with the font files. |
 | The clinical content | The 12 findings, scoring and bands follow Table 1 of Molloy et al. 2025. Cite the paper — an MIT licence on this website is not a licence over the published tool. |
 
