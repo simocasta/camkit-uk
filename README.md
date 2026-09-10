@@ -4,9 +4,13 @@ The public website for **CamKIT**, a 12-point clinical prediction tool for triag
 soft-tissue knee injuries: a landing page (background, evidence, publications, paper
 download) and an interactive calculator.
 
-> **For research use only.** CamKIT is a research prototype of a clinical decision-support
-> aid. It is an aid to, not a substitute for, clinical judgement, and it is not a registered
-> medical device.
+> **Disclaimer.** CamKIT may be used within a clinical service as part of the assessment
+> process. However, CamKIT is a research tool and has not been approved by any regulatory
+> authority as a clinical diagnostic device. As such, the CamKIT score should not be used in
+> isolation to make, support, or determine a clinical diagnosis or other clinical decision.
+> Any clinical decisions should be based on the clinician's professional judgement and a
+> comprehensive assessment, with CamKIT serving only as one source of information alongside
+> other evidence.
 
 All scoring runs client-side. **Nothing entered in the calculator is stored or transmitted.**
 
@@ -109,8 +113,9 @@ ethics position are maintainer notes and are kept outside this repo.
 ## Notes
 
 - **Download as PDF (calculator):** uses the browser's own print-to-PDF — no library, works
-  offline. Prints the current state with score, band, recommended action, date, disclaimer
-  and citation. A print stylesheet (`@media print` in `styles.css`) handles the layout.
+  offline. Prints the current state with score, band, recommended action, date, the full
+  disclaimer and the citation. A print stylesheet (`@media print` in `styles.css`) handles
+  the layout.
 - **Logos:** `public/assets/logos/` holds derivatives, not the originals — each mark is cropped to
   its alpha bounding box (the Division lock-up ships with 67px of padding on top and 7px on
   the bottom, so untrimmed it sits visibly high), resized to 3× its CSS display height, and
@@ -176,8 +181,8 @@ The site's own source — HTML, CSS, JavaScript and the maintainer docs — is
 | The clinical content | The 12 findings, scoring and bands follow Table 1 of Molloy et al. 2025. Cite the paper — an MIT licence on this website is not a licence over the published tool. |
 
 MIT was chosen for its warranty disclaimer as much as its permissiveness: CamKIT is a
-research prototype and not a registered medical device, and a fork that changes the scoring
-or the band thresholds is the forker's responsibility, not CamKIT's.
+research tool with no regulatory approval as a clinical diagnostic device, and a fork that
+changes the scoring or the band thresholds is the forker's responsibility, not CamKIT's.
 
 ## Citation
 

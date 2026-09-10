@@ -79,13 +79,44 @@ else
   report "unrecognised Qualtrics URL shape — expected /jfe/form/<ID>: $survey_href"
 fi
 
-# --- 4. the research-use-only framing must be on both pages ------------------
-echo "4. the research-use-only statement is present on both pages"
+# --- 4. the regulatory disclaimer must be on both pages and in the PDF ------
+# Three independent claims: CamKIT is a research tool, it has no regulatory
+# approval as a diagnostic device, and its score is never used in isolation.
+# All three must survive any copy edit — including in the print-only block,
+# which is the only disclaimer a downloaded assessment carries.
+echo "4. the regulatory disclaimer is present on both pages and in the PDF"
+
+# The disclaimer is wrapped across source lines and broken up by <strong> tags,
+# so every check below runs against a flattened, tag-stripped copy of the page.
+flatten() { sed -e 's/<[^>]*>/ /g' "$1" | tr -s '[:space:]' ' '; }
+
+disclaimer_fail=0
+require_phrase() {  # <flattened text> <phrase> <what it means>
+  printf '%s' "$1" | grep -qi -- "$2" || { report "$3"; disclaimer_fail=1; }
+}
 
 for page in "$SITE/index.html" "$SITE/calculator/index.html"; do
-  grep -qi 'for research use only' "$page" \
-    || report "$page has no 'for research use only' statement"
+  flat=$(flatten "$page")
+  require_phrase "$flat" 'research tool' \
+    "$page no longer says CamKIT is a research tool"
+  require_phrase "$flat" 'not been approved by any regulatory authority' \
+    "$page no longer states the lack of regulatory approval"
+  require_phrase "$flat" 'not be used in isolation' \
+    "$page no longer says the score must not be used in isolation"
 done
+
+# The printed/downloaded assessment carries the same disclaimer. It lives in the
+# print-only footer, which is the ONLY disclaimer text that survives @media print
+# (the page footer and the notes grid are both display:none there).
+foot=$(sed -n '/print-only print-foot/,/<\/div>/p' "$SITE/calculator/index.html" \
+       | sed -e 's/<[^>]*>/ /g' | tr -s '[:space:]' ' ')
+require_phrase "$foot" 'not been approved by any regulatory authority' \
+  "the print-only footer has lost the disclaimer — it would be missing from the PDF"
+require_phrase "$foot" 'not be used in isolation' \
+  "the print-only footer no longer says the score must not be used in isolation"
+
+[ "$disclaimer_fail" -eq 0 ] \
+  && pass "disclaimer intact on both pages and in the printed assessment"
 
 echo
 if [ "$fail" -ne 0 ]; then
