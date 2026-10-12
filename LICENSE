@@ -37,8 +37,8 @@ by someone else and are NOT yours to reuse under the terms above:
    (The files here are reduced derivatives; the originals are not distributed.)
 
 2. THE PAPER — `assets/papers/molloy-2025-camkit-bmj-osem.pdf`
-   © Author(s) 2025, published open access by BMJ under CC BY-NC 4.0:
-   https://creativecommons.org/licenses/by-nc/4.0/
+   © Author(s) 2025, published open access by BMJ under CC BY 4.0:
+   https://creativecommons.org/licenses/by/4.0/
    That licence is the publisher's and is not altered by anything here.
 
 3. IBM PLEX — `assets/fonts/`
@@ -54,9 +54,15 @@ by someone else and are NOT yours to reuse under the terms above:
 A NOTE ON CLINICAL USE
 -------------------------------------------------------------------------------
 
-CamKIT is a research prototype of a clinical decision-support aid, published
-for research use only. It is not a registered medical device. The "AS IS" and
-no-liability terms above are not boilerplate here: if you fork this, change the
-scoring or the band thresholds, and deploy it, the output is your
-responsibility and no longer represents the validated CamKIT tool. Please do
-not present a modified version under the CamKIT name.
+CamKIT is a research tool. It has not been approved by any regulatory
+authority as a clinical diagnostic device, and its performance has been
+evaluated only in the published studies cited on the site. It may be used
+within a clinical service as part of the assessment process, but a service
+that does so uses it at its own risk and under its own clinical governance,
+and the score must not be used in isolation to make, support or determine a
+clinical diagnosis or other clinical decision.
+
+The "AS IS" and no-liability terms above are not boilerplate here: if you fork
+this, change the scoring or the band thresholds, and deploy it, the output is
+your responsibility and no longer represents the validated CamKIT tool. Please
+do not present a modified version under the CamKIT name.
