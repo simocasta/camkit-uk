@@ -37,7 +37,7 @@ on purpose. Repo metadata, maintainer docs and logo originals sit outside it and
 │       ├── fonts/             # self-hosted IBM Plex woff2
 │       │   └── OFL.txt        #   IBM Plex is SIL OFL 1.1 — must ship with the fonts
 │       ├── logos/
-│       │   ├── cambridge-university.png    # University of Cambridge lock-up (strip, left)
+│       │   ├── university-of-cambridge.png # University of Cambridge lock-up (strip, left)
 │       │   ├── cambridge-surgery.png       # Division of Trauma & Orthopaedic Surgery
 │       │   └── mcdonnell-lab.png           # McDonnell Lab, Cambridge
 │       └── papers/
@@ -141,6 +141,10 @@ ethics position are maintainer notes and are kept outside this repo.
   attributes on all three pages equal to the real pixel dimensions or the strip will shift on
   load. `_headers` caches `/assets/logos/*` as `immutable` for a year, so a changed mark must
   ship under a new filename — editing one in place will not reach anyone who has visited.
+  The same goes for a removed one: the header applies to a 404 too, so a deleted mark's URL
+  is answered with a year-long `immutable` 404. That is why the University lock-up is
+  `university-of-cambridge.png` — it was off the site from September to October 2026 pending
+  University brand approval, and its old name, `cambridge-university.png`, cannot be reused.
 - **Offline use:** IBM Plex Sans and IBM Plex Mono are self-hosted under `public/assets/fonts/`, so
   the pages render identically with no external network access — no third-party font host to
   be blocked by a hospital proxy, and no visitor IP handed to one. The regeneration recipe is
